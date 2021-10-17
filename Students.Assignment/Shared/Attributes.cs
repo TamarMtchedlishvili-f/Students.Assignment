@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Blazor.Learner.Shared
+namespace Students.Assignment.Shared
 {
     public class MinimumAgeAttribute : ValidationAttribute
     {

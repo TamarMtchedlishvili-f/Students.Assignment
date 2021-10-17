@@ -1,5 +1,6 @@
-﻿@using Blazor.Learner.Shared.Models.DoSo.Students.Shared.Model
-@using static Blazor.Learner.Shared.Models.DoSo.Students.Shared.Model.Student
+﻿@using Microsoft.AspNetCore.Components
+@using Students.Assignment.Shared.Models
+
 <EditForm Model="@Student" OnValidSubmit="@OnValidSubmit">
     <DataAnnotationsValidator />
     <div class="form-group">
@@ -39,7 +40,7 @@
             <label>Gender :</label>
             <div>
                 <InputSelect @bind-Value="@Student.Gender">
-                @foreach (var gender in Enum.GetValues(typeof(GenderEnum)))
+                @foreach (var gender in Enum.GetValues(typeof(Student.GenderEnum)))
                 {
                     <option value="@gender">@gender</option>
                 }

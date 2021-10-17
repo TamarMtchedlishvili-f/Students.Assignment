@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Blazor.Learner.Server.Data;
-using Blazor.Learner.Shared.Models.DoSo.Students.Shared.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Students.Assignment.Shared.Models;
 
 namespace Blazor.Learner.Server.Controllers
 {

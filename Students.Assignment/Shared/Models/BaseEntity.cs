@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Blazor.Learner.Shared.Models
+﻿namespace Students.Assignment.Shared.Models
 {
     public abstract class BaseEntity
     {

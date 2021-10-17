@@ -1,5 +1,5 @@
-﻿using Blazor.Learner.Shared.Models.DoSo.Students.Shared.Model;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Students.Assignment.Shared.Models;
 
 namespace Blazor.Learner.Server.Data
 {
