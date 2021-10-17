@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Blazor.Learner.Server.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20211017104246_Initial")]
+    [Migration("20211017114552_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,7 +21,7 @@ namespace Blazor.Learner.Server.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Students.Assignment.Client.Shared.Models.DoSo.Students.Shared.Model.Student", b =>
+            modelBuilder.Entity("Blazor.Learner.Shared.Models.DoSo.Students.Shared.Model.Student", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

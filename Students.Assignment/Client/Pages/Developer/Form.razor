@@ -1,43 +1,50 @@
 ﻿@using Blazor.Learner.Shared.Models.DoSo.Students.Shared.Model
 @using static Blazor.Learner.Shared.Models.DoSo.Students.Shared.Model.Student
-<EditForm Model="@student" OnValidSubmit="@OnValidSubmit">
+<EditForm Model="@Student" OnValidSubmit="@OnValidSubmit">
     <DataAnnotationsValidator />
+    <div class="form-group">
+            <label>ID number :</label>
+            <div>
+                <InputText @bind-Value="@Student.IDNumber" />
+                <ValidationMessage For="@(() => Student.IDNumber)" />
+            </div>
+        </div>
     <div class="form-group">
         <label>First Name :</label>
         <div>
-            <InputText @bind-Value="@student.FirstName" />
-            <ValidationMessage For="@(() => student.FirstName)" />
+            <InputText @bind-Value="@Student.FirstName" />
+            <ValidationMessage For="@(() => Student.FirstName)" />
         </div>
     </div>
     <div class="form-group ">
         <div>
             <label>Last Name :</label>
             <div>
-                <InputText @bind-Value="@student.LastName" />
-                <ValidationMessage For="@(() => student.LastName)" />
+                <InputText @bind-Value="@Student.LastName" />
+                <ValidationMessage For="@(() => Student.LastName)" />
             </div>
         </div>
     </div>
     <div class="form-group ">
         <div>
-            <label>Email :</label>
+            <label>Date of birth :</label>
             <div>
-                <InputDate @bind-Value="@student.DateOfBirth" />
-                <ValidationMessage For="@(() => student.DateOfBirth)" />
+                <InputDate @bind-Value="@Student.DateOfBirth" />
+                <ValidationMessage For="@(() => Student.DateOfBirth)" />
             </div>
         </div>
     </div>
     <div class="form-group ">
         <div>
-            <label>Experience :</label>
+            <label>Gender :</label>
             <div>
-                <InputSelect @bind-Value="@student.Gender">
+                <InputSelect @bind-Value="@Student.Gender">
                 @foreach (var gender in Enum.GetValues(typeof(GenderEnum)))
                 {
                     <option value="@gender">@gender</option>
                 }
                 </InputSelect>
-                <ValidationMessage For="@(() => student.Gender)" />
+                <ValidationMessage For="@(() => Student.Gender)" />
             </div>
         </div>
     </div>
@@ -50,7 +57,7 @@
 
 
 @code {
-    [Parameter] public Student student { get; set; }
+    [Parameter] public Student Student { get; set; }
     [Parameter] public string ButtonText { get; set; } = "Save";
     [Parameter] public EventCallback OnValidSubmit { get; set; }
 }

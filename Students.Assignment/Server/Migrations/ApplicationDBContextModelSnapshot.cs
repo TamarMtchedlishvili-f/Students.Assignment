@@ -19,7 +19,7 @@ namespace Blazor.Learner.Server.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Students.Assignment.Client.Shared.Models.DoSo.Students.Shared.Model.Student", b =>
+            modelBuilder.Entity("Blazor.Learner.Shared.Models.DoSo.Students.Shared.Model.Student", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

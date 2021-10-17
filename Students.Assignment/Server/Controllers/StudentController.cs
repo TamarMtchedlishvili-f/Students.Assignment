@@ -20,8 +20,6 @@ namespace Blazor.Learner.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            // return Ok(new[] { new Student { Email = "tamara", Experience = 2.3m, Id = 123 } });
-
             var devs = await _context.Students.ToListAsync();
             return Ok(devs);
         }

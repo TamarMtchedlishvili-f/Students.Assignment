@@ -5,56 +5,61 @@
 @inject IJSRuntime js
 @inject NavigationManager uriHelper
 
-<h1>DataGrid</h1>
+<h1>Students</h1>
 
-<p>სტუდენტები! 😲</p>
+@* <p>სტუდენტები! 😲</p> *@
 
-    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@InsertRow" />
-    <RadzenDataGrid @ref=StudentsGrid AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" PageSize="5" AllowPaging="true" AllowSorting="true" 
-        EditMode="DataGridEditMode.Single" Data="@Students" TItem="Student" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
-        <Columns>
-            <RadzenDataGridColumn TItem="Student" Property="Id" Filterable="false" Title="ID" Frozen="true" Width="70px" TextAlign="TextAlign.Center" />
-            
-            <RadzenDataGridColumn TItem="Student" Property="FirstName" Title="First Name" />
-            <RadzenDataGridColumn TItem="Student" Property="LastName" Title="Last Name" Width="150px"/>
-            <RadzenDataGridColumn TItem="Student" Property="Email" Title="Email" />
-            <RadzenDataGridColumn TItem="Student" Property="Experience" Title="Experience" />
-                  <RadzenDataGridColumn TItem="Student" Context="sampleBlazorModelsSampleOrder" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
-                <Template Context="order">
-                    <RadzenButton Icon="edit" Size="ButtonSize.Small" Click="@(args => EditRow(order))" @onclick:stopPropagation="true">
-                    </RadzenButton>
-                </Template>
-                <EditTemplate Context="order">
-                    <RadzenButton Icon="save" Size="ButtonSize.Small" Click="@((args) => SaveRow(order))">
-                    </RadzenButton>
-                    <RadzenButton Icon="cancel" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Secondary" Click="@((args) => CancelEdit(order))">
-                    </RadzenButton>
-                </EditTemplate>
-            </RadzenDataGridColumn>
-            <RadzenDataGridColumn TItem="Student" Context="order" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="70px">
-                <Template Context="order">
-                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@(args => DeleteRow(order))"  @onclick:stopPropagation="true">
-                    </RadzenButton>
-                </Template>
-                <EditTemplate Context="order">
-                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@(args => DeleteRow(order))">
-                    </RadzenButton>
-                </EditTemplate>
-            </RadzenDataGridColumn>
-        </Columns>
-    </RadzenDataGrid>
+<RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@InsertRow"/>
+<RadzenDataGrid @ref=StudentsGrid AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" PageSize="5" AllowPaging="true" AllowSorting="true"
+                EditMode="DataGridEditMode.Single" Data="@Students" TItem="Student" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+    <Columns>
+        <RadzenDataGridColumn TItem="Student" Property="Id" Filterable="false" Title="ID" Frozen="true" Width="70px" TextAlign="TextAlign.Center"/>
+
+        <RadzenDataGridColumn TItem="Student" Property="IDNumber" Title="ID number"/>
+        <RadzenDataGridColumn TItem="Student" Property="FirstName" Title="First Name"/>
+        <RadzenDataGridColumn TItem="Student" Property="LastName" Title="Last Name" Width="150px"/>
+        <RadzenDataGridColumn TItem="Student" Property="DateOfBirth" Title="DateOfBirth"/>
+        <RadzenDataGridColumn TItem="Student" Property="Gender" Title="Gender"/>
+        <RadzenDataGridColumn TItem="Student" Context="sampleBlazorModelsSampleOrder" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
+            <Template Context="order">
+                <RadzenButton Icon="edit" Size="ButtonSize.Small" Click="@(args => EditRow(order))" @onclick:stopPropagation="true">
+                </RadzenButton>
+            </Template>
+            <EditTemplate Context="order">
+                <RadzenButton Icon="save" Size="ButtonSize.Small" Click="@((args) => SaveRow(order))">
+                </RadzenButton>
+                <RadzenButton Icon="cancel" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Secondary" Click="@((args) => CancelEdit(order))">
+                </RadzenButton>
+            </EditTemplate>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="Student" Context="order" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="70px">
+            <Template Context="order">
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@(args => DeleteRow(order))" @onclick:stopPropagation="true">
+                </RadzenButton>
+            </Template>
+            <EditTemplate Context="order">
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@(args => DeleteRow(order))">
+                </RadzenButton>
+            </EditTemplate>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
+
 @code {
     RadzenDataGrid<Student> StudentsGrid;
 
     Student[] Students { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         Students = await client.GetFromJsonAsync<Student[]>("api/student");
     }
+
     async Task SaveRow(Student student)
     {
         await StudentsGrid.UpdateRow(student);
     }
+
     async Task DeleteRow(Student student)
     {
         if (await js.InvokeAsync<bool>("confirm", $"Do you want to delete {student.FirstName}'s ({student.Id}) Record?"))
@@ -63,47 +68,52 @@
             await OnInitializedAsync();
         }
     }
+
     void CancelEdit(Student student)
     {
         StudentsGrid.CancelEditRow(student);
 
-        //// For production
-        //var orderEntry = dbContext.Entry(order);
-        //if (orderEntry.State == EntityState.Modified)
-        //{
-        //    orderEntry.CurrentValues.SetValues(orderEntry.OriginalValues);
-        //    orderEntry.State = EntityState.Unchanged;
-        //}
+    //// For production
+    //var orderEntry = dbContext.Entry(order);
+    //if (orderEntry.State == EntityState.Modified)
+    //{
+    //    orderEntry.CurrentValues.SetValues(orderEntry.OriginalValues);
+    //    orderEntry.State = EntityState.Unchanged;
+    //}
     }
+
     async Task InsertRow()
     {
         uriHelper.NavigateTo($"student/create");
 
 
-        //await StudentsGrid.InsertRow(new Student());
+    //await StudentsGrid.InsertRow(new Student());
     }
+
     void EditRow(Student order)
     {
         uriHelper.NavigateTo($"student/edit/{order.Id}");
 
-        //href="Student/edit/@student.Id">Edit</a>
+    //href="Student/edit/@student.Id">Edit</a>
 
-        //StudentsGrid.EditRow(order);
+    //StudentsGrid.EditRow(order);
     }
+
     async Task OnCreateRow(Student student)
     {
         await client.PostAsJsonAsync("api/student", student);
-        // uriHelper.NavigateTo("Student");
+    // uriHelper.NavigateTo("Student");
 
-        //dbContext.Add(order);
+    //dbContext.Add(order);
 
-        //// For demo purposes only
-        //order.Customer = dbContext.Customers.Find(order.CustomerID);
-        //order.Employee = dbContext.Employees.Find(order.EmployeeID);
+    //// For demo purposes only
+    //order.Customer = dbContext.Customers.Find(order.CustomerID);
+    //order.Employee = dbContext.Employees.Find(order.EmployeeID);
 
-        // For production
-        //dbContext.SaveChanges();
+    // For production
+    //dbContext.SaveChanges();
     }
+
     async Task OnUpdateRow(Student student)
     {
         await client.PutAsJsonAsync("api/student", student);
@@ -111,9 +121,10 @@
         uriHelper.NavigateTo("student");
 
 
-        // For production
-        //dbContext.SaveChanges();
+    // For production
+    //dbContext.SaveChanges();
     }
+
     async Task Delete(int StudentId)
     {
         var student = Students.First(x => x.Id == StudentId);
@@ -123,4 +134,5 @@
             await OnInitializedAsync();
         }
     }
+
 }
