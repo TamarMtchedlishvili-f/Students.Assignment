@@ -1,0 +1,29 @@
+﻿@page "/Student/edit/{StudentId:int}"
+@using Blazor.Learner.Shared.Models.DoSo.Students.Shared.Model
+@inject HttpClient http
+@inject NavigationManager uriHelper
+@inject IJSRuntime js
+
+<h3>Edit</h3>
+
+<Form ButtonText="Update" student="student"
+      OnValidSubmit="@EditStudent" />
+
+@code {
+    [Parameter] public int StudentId { get; set; }
+    
+    Student student = new Student();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        student = await http.GetFromJsonAsync<Student>($"api/Student/{StudentId}");
+    }
+
+    async Task EditStudent()
+    {
+        await http.PutAsJsonAsync("api/Student", student);
+        await js.InvokeVoidAsync("alert", $"Updated Successfully!");
+        uriHelper.NavigateTo("Student");
+
+    }
+}

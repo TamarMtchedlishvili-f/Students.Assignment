@@ -1,0 +1,18 @@
+﻿@page "/Student/create"
+@using Blazor.Learner.Shared.Models.DoSo.Students.Shared.Model
+@inject HttpClient http
+@inject NavigationManager uriHelper
+
+<h3>Create</h3>
+
+<Form ButtonText="Create Student" student="@student"
+            OnValidSubmit="@CreateStudent" />
+
+@code {
+    Student student = new Student();
+    async Task CreateStudent()
+    {
+        await http.PostAsJsonAsync("api/student", student);
+        uriHelper.NavigateTo("student");
+    }
+}
