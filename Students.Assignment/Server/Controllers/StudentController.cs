@@ -10,9 +10,9 @@ namespace Blazor.Learner.Server.Controllers
     [ApiController]
     public class StudentController : ControllerBase
     {
-        private readonly ApplicationDBContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public StudentController(ApplicationDBContext context)
+        public StudentController(ApplicationDbContext context)
         {
             this._context = context;
         }

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Blazor.Learner.Shared.Models
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using Microsoft.EntityFrameworkCore;
 
     namespace DoSo.Students.Shared.Model
     {
@@ -14,6 +11,7 @@ namespace Blazor.Learner.Shared.Models
         public class Student
         {
             public int Id { get; set; }
+            
             [Required(ErrorMessage = "This field is required")]
             [MaxLength(11, ErrorMessage = "ID Number cannot exceed 11 characters")]
             public string IDNumber { get; set; }
@@ -27,7 +25,9 @@ namespace Blazor.Learner.Shared.Models
             public string LastName { get; set; }
 
             [Required(ErrorMessage = "This field is required")]
+            [MinimumAgeAttribute]
             public DateTime DateOfBirth { get; set; }
+            
             [Required(ErrorMessage = "This field is required")]
             public GenderEnum Gender { get; set; }
             public enum GenderEnum
