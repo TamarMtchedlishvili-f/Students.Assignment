@@ -1,0 +1,109 @@
+﻿@page "/Course"
+@using Students.Assignment.Shared.Courses
+
+@inject HttpClient client
+@inject IJSRuntime js
+@inject NavigationManager uriHelper
+
+<h1>Courses</h1>
+
+
+<RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@InsertRow"/>
+<RadzenDataGrid @ref=_coursesGrid AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" PageSize="5" AllowPaging="true" AllowSorting="true"
+                EditMode="DataGridEditMode.Single" Data="@Courses" TItem="Course" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+    <Columns>
+        <RadzenDataGridColumn TItem="Course" Property="Id" Filterable="false" Title="ID" Frozen="true" Width="70px" TextAlign="TextAlign.Center"/>
+
+        <RadzenDataGridColumn TItem="Course" Property="CourseName" Title="Course Name"/>
+        <RadzenDataGridColumn TItem="Course" Property="Credit" Title="Credits" Width="150px"/>
+        <RadzenDataGridColumn TItem="Course" Property="CourseType" Title="Course Type"/>
+        <RadzenDataGridColumn TItem="Course" Context="sampleBlazorModelsSampleOrder" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
+            <Template Context="order">
+                <RadzenButton Icon="edit" Size="ButtonSize.Small" Click="@(args => EditRow(order))" @onclick:stopPropagation="true">
+                </RadzenButton>
+            </Template>
+            <EditTemplate Context="order">
+                <RadzenButton Icon="save" Size="ButtonSize.Small" Click="@(args => SaveRow(order))">
+                </RadzenButton>
+                <RadzenButton Icon="cancel" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Secondary" Click="@((args) => CancelEdit(order))">
+                </RadzenButton>
+            </EditTemplate>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="Course" Context="order" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="70px">
+            <Template Context="order">
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@(args => DeleteRow(order))" @onclick:stopPropagation="true">
+                </RadzenButton>
+            </Template>
+            <EditTemplate Context="order">
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@(args => DeleteRow(order))">
+                </RadzenButton>
+            </EditTemplate>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
+
+@code {
+    RadzenDataGrid<Course> _coursesGrid;
+
+    Course[] Courses { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Courses = await client.GetFromJsonAsync<Course[]>("api/course");
+    }
+
+    async Task SaveRow(Course course)
+    {
+        await _coursesGrid.UpdateRow(course);
+    }
+
+    async Task DeleteRow(Course course)
+    {
+        if (await js.InvokeAsync<bool>("confirm", $"Do you want to delete {course.CourseName}'s ({course.Id}) Record?"))
+        {
+            await client.DeleteAsync($"api/course/{course.Id}");
+            await OnInitializedAsync();
+        }
+    }
+
+    void CancelEdit(Course course)
+    {
+        _coursesGrid.CancelEditRow(course);
+    }
+
+#pragma warning disable 1998
+    async Task InsertRow()
+#pragma warning restore 1998
+    {
+        uriHelper.NavigateTo("course/create");
+    }
+
+    void EditRow(Course course)
+    {
+        uriHelper.NavigateTo($"course/edit/{course.Id}");
+    }
+
+    async Task OnCreateRow(Course course)
+    {
+        await client.PostAsJsonAsync("api/course", course);
+        uriHelper.NavigateTo($"course/create");
+    }
+
+    async Task OnUpdateRow(Course course)
+    {
+        await client.PutAsJsonAsync("api/course", course);
+        await js.InvokeVoidAsync("alert", $"Updated Successfully!");
+        uriHelper.NavigateTo("course");
+    }
+
+    async Task Delete(int courseId)
+    {
+        var course = Courses.First(x => x.Id == courseId);
+        if (await js.InvokeAsync<bool>("confirm", $"Do you want to delete {course.CourseName}'s ({course.Id}) Record?"))
+        {
+            await client.DeleteAsync($"api/course/{courseId}");
+            await OnInitializedAsync();
+        }
+    }
+
+}

@@ -19,6 +19,27 @@ namespace Blazor.Learner.Server.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Students.Assignment.Shared.Courses.Course", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CourseName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CourseType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Credit")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Courses");
+                });
+
             modelBuilder.Entity("Students.Assignment.Shared.Models.Student", b =>
                 {
                     b.Property<int>("Id")
@@ -26,7 +47,13 @@ namespace Blazor.Learner.Server.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateOfEnrollment")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
@@ -49,7 +76,16 @@ namespace Blazor.Learner.Server.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CourseId");
+
                     b.ToTable("Students");
+                });
+
+            modelBuilder.Entity("Students.Assignment.Shared.Models.Student", b =>
+                {
+                    b.HasOne("Students.Assignment.Shared.Courses.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId");
                 });
 #pragma warning restore 612, 618
         }

@@ -5,10 +5,9 @@ using Microsoft.EntityFrameworkCore;
 namespace Students.Assignment.Shared.Models
 {
     [Index(nameof(IDNumber), IsUnique = true)]
-    public class Student
+    public class Person : BaseEntity
     {
-        public int Id { get; set; }
-
+        
         [Required(ErrorMessage = "This field is required")]
         [MaxLength(11, ErrorMessage = "ID Number cannot exceed 11 characters")]
         public string IDNumber { get; set; }
@@ -32,6 +31,5 @@ namespace Students.Assignment.Shared.Models
             Female = 0,
             Male = 1
         }
-
     }
 }

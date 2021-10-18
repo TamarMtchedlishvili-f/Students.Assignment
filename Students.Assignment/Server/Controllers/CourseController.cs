@@ -2,45 +2,45 @@
 using Blazor.Learner.Server.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Students.Assignment.Shared.Models;
+using Students.Assignment.Shared.Courses;
 
 namespace Blazor.Learner.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StudentController : ControllerBase
+    public class CourseController : ControllerBase
     {
         readonly ApplicationDbContext _context;
 
-        public StudentController(ApplicationDbContext context)
+        public CourseController(ApplicationDbContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var devs = await _context.Students.ToListAsync();
-            return Ok(devs);
+            var courses = await _context.Courses.ToListAsync();
+            return Ok(courses);
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var student = await _context.Students.FirstOrDefaultAsync(a=>a.Id ==id);
-            return Ok(student);
+            var course = await _context.Courses.FirstOrDefaultAsync(a=>a.Id ==id);
+            return Ok(course);
         }
         [HttpPost]
-        public async Task<IActionResult> Post(Student developer)
+        public async Task<IActionResult> Post(Course course)
         {
-            _context.Add(developer);
+            _context.Add(course);
             await _context.SaveChangesAsync();
-            return Ok(developer.Id);
+            return Ok(course.Id);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(Student developer)
+        public async Task<IActionResult> Put(Course course)
         {
-            _context.Entry(developer).State = EntityState.Modified;
+            _context.Entry(course).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return NoContent();
         }
@@ -48,8 +48,8 @@ namespace Blazor.Learner.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var student = new Student { Id = id };
-            _context.Remove(student);
+            var course = new Course { Id = id };
+            _context.Remove(course);
             await _context.SaveChangesAsync();
             return NoContent();
         }

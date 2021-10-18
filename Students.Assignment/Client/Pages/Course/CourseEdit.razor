@@ -1,0 +1,29 @@
+﻿@page "/Course/edit/{CourseId:int}"
+@using Students.Assignment.Shared.Courses
+@inject HttpClient http
+@inject NavigationManager uriHelper
+@inject IJSRuntime js
+
+<h3>Edit</h3>
+
+<Form ButtonText="Update" Course="course"
+      OnValidSubmit="@EditStudent()" />
+
+@code {
+    [Parameter] public int CourseId { get; set; }
+    
+    Course course = new Course();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        course = await http.GetFromJsonAsync<Course>($"api/Course/{CourseId}");
+    }
+
+    async Task EditStudent()
+    {
+        await http.PutAsJsonAsync("api/Course", course);
+        await js.InvokeVoidAsync("alert", $"Updated Successfully!");
+        uriHelper.NavigateTo("Course");
+
+    }
+}

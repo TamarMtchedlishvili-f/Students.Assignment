@@ -40,7 +40,7 @@
             <label>Gender :</label>
             <div>
                 <InputSelect @bind-Value="@Student.Gender">
-                @foreach (var gender in Enum.GetValues(typeof(Student.GenderEnum)))
+                @foreach (var gender in Enum.GetValues(typeof(Person.GenderEnum)))
                 {
                     <option value="@gender">@gender</option>
                 }

@@ -1,0 +1,19 @@
+﻿@page "/Course/create"
+@using Students.Assignment.Shared.Courses
+@inject HttpClient http
+@inject NavigationManager uriHelper
+
+<h3>Create</h3>
+
+
+<CourseForm ButtonText="Create Course" Course="@course"
+      OnValidSubmit="@CreateCourse" />
+
+@code {
+    Course course = new Course();
+    async Task CreateCourse()
+    {
+        await http.PostAsJsonAsync("api/course", course);
+        uriHelper.NavigateTo("course");
+    }
+}

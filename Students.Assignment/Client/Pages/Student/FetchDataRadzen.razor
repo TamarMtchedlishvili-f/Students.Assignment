@@ -72,46 +72,21 @@
     void CancelEdit(Student student)
     {
         StudentsGrid.CancelEditRow(student);
-
-    //// For production
-    //var orderEntry = dbContext.Entry(order);
-    //if (orderEntry.State == EntityState.Modified)
-    //{
-    //    orderEntry.CurrentValues.SetValues(orderEntry.OriginalValues);
-    //    orderEntry.State = EntityState.Unchanged;
-    //}
     }
 
     async Task InsertRow()
     {
         uriHelper.NavigateTo($"student/create");
-
-
-    //await StudentsGrid.InsertRow(new Student());
     }
 
     void EditRow(Student order)
     {
         uriHelper.NavigateTo($"student/edit/{order.Id}");
-
-    //href="Student/edit/@student.Id">Edit</a>
-
-    //StudentsGrid.EditRow(order);
     }
 
     async Task OnCreateRow(Student student)
     {
         await client.PostAsJsonAsync("api/student", student);
-    // uriHelper.NavigateTo("Student");
-
-    //dbContext.Add(order);
-
-    //// For demo purposes only
-    //order.Customer = dbContext.Customers.Find(order.CustomerID);
-    //order.Employee = dbContext.Employees.Find(order.EmployeeID);
-
-    // For production
-    //dbContext.SaveChanges();
     }
 
     async Task OnUpdateRow(Student student)
@@ -119,18 +94,14 @@
         await client.PutAsJsonAsync("api/student", student);
         await js.InvokeVoidAsync("alert", $"Updated Successfully!");
         uriHelper.NavigateTo("student");
-
-
-    // For production
-    //dbContext.SaveChanges();
     }
 
-    async Task Delete(int StudentId)
+    async Task Delete(int studentId)
     {
-        var student = Students.First(x => x.Id == StudentId);
+        var student = Students.First(x => x.Id == studentId);
         if (await js.InvokeAsync<bool>("confirm", $"Do you want to delete {student.FirstName}'s ({student.Id}) Record?"))
         {
-            await client.DeleteAsync($"api/student/{StudentId}");
+            await client.DeleteAsync($"api/student/{studentId}");
             await OnInitializedAsync();
         }
     }

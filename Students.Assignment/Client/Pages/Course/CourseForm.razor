@@ -1,0 +1,55 @@
+﻿@using Microsoft.AspNetCore.Components
+@using Students.Assignment.Shared.Courses
+
+<EditForm Model="@Course" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <label>Id :</label>
+        <div>
+            <InputNumber @bind-Value="@Course.Id" />
+            <ValidationMessage For="@(() => Course.Id)" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Course Name :</label>
+        <div>
+            <InputText @bind-Value="@Course.CourseName" />
+            <ValidationMessage For="@(() => Course.CourseName)" />
+        </div>
+    </div>
+    <div class="form-group ">
+        <div>
+            <label>Credits :</label>
+            <div>
+                <InputNumber @bind-Value="@Course.Credit" />
+                <ValidationMessage For="@(() => Course.Credit)" />
+            </div>
+        </div>
+    </div>
+   <div class="form-group ">
+           <div>
+               <label>Gender :</label>
+               <div>
+                   <InputSelect @bind-Value="@Course.CourseType">
+                   @foreach (var gender in Enum.GetValues(typeof(Course.CourseTypeEnum)))
+                   {
+                       <option value="@gender">@gender</option>
+                   }
+                   </InputSelect>
+                   <ValidationMessage For="@(() => Course.CourseType)" />
+               </div>
+           </div>
+       </div>
+    
+    <button type="submit" class="btn btn-success">
+        @ButtonText
+    </button>
+
+</EditForm>
+
+
+@code {
+    [Parameter] public Course Course { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+}
