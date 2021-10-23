@@ -11,15 +11,17 @@
 
 <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@InsertRow"/>
 <RadzenDataGrid @ref=StudentsGrid AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" PageSize="5" AllowPaging="true" AllowSorting="true"
-                EditMode="DataGridEditMode.Single" Data="@Students" TItem="Student" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+                EditMode="DataGridEditMode.Single" Data="@Students" TItem="Student" ColumnWidth="100px" LogicalFilterOperator="LogicalFilterOperator.Or" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
     <Columns>
         <RadzenDataGridColumn TItem="Student" Property="Id" Filterable="false" Title="ID" Frozen="true" Width="70px" TextAlign="TextAlign.Center"/>
 
+        @* ეს არის იმ ველების სია, რაც ჩანს ლისთვიუზე *@
         <RadzenDataGridColumn TItem="Student" Property="IDNumber" Title="ID number"/>
         <RadzenDataGridColumn TItem="Student" Property="FirstName" Title="First Name"/>
         <RadzenDataGridColumn TItem="Student" Property="LastName" Title="Last Name" Width="150px"/>
         <RadzenDataGridColumn TItem="Student" Property="DateOfBirth" Title="DateOfBirth"/>
         <RadzenDataGridColumn TItem="Student" Property="Gender" Title="Gender"/>
+        <RadzenDataGridColumn TItem="Student" Property="Course" Title="Course"/>
         <RadzenDataGridColumn TItem="Student" Context="sampleBlazorModelsSampleOrder" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
             <Template Context="order">
                 <RadzenButton Icon="edit" Size="ButtonSize.Small" Click="@(args => EditRow(order))" @onclick:stopPropagation="true">

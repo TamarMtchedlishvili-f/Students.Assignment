@@ -1,8 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
+using Students.Assignment.Shared.Models;
 
-namespace Students.Assignment.Shared.Models
+namespace Students.Assignment.Shared.People
 {
     [Index(nameof(IDNumber), IsUnique = true)]
     public class Person : BaseEntity
@@ -10,6 +11,7 @@ namespace Students.Assignment.Shared.Models
         
         [Required(ErrorMessage = "This field is required")]
         [MaxLength(11, ErrorMessage = "ID Number cannot exceed 11 characters")]
+        // ReSharper disable once InconsistentNaming
         public string IDNumber { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
