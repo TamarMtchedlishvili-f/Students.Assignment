@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
-using Students.Assignment.Shared.Models;
 
 namespace Students.Assignment.Shared.People
 {

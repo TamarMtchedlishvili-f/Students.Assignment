@@ -1,4 +1,4 @@
-﻿namespace Students.Assignment.Shared.Models
+﻿namespace Students.Assignment.Shared.People
 {
     public abstract class BaseEntity
     {

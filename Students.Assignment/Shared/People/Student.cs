@@ -1,14 +1,13 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Components;
 using Students.Assignment.Shared.Courses;
-using Students.Assignment.Shared.People;
 
-namespace Students.Assignment.Shared.Models
+namespace Students.Assignment.Shared.People
 {
     public class Student : Person
     {
         public DateTime DateOfEnrollment { get; set; }
+        [CascadingParameter]
         public Course Course { get; set; }
     }
 }

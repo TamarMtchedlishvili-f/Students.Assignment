@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
-using Blazor.Learner.Server.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Students.Assignment.Server.Data;
 using Students.Assignment.Shared.Courses;
 
-namespace Blazor.Learner.Server.Controllers
+namespace Students.Assignment.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

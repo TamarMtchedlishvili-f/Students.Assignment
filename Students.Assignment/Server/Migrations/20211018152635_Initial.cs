@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Blazor.Learner.Server.Migrations
+namespace Students.Assignment.Server.Migrations
 {
     public partial class Initial : Migration
     {

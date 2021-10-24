@@ -1,6 +1,4 @@
-﻿using Students.Assignment.Shared.People;
-
-namespace Students.Assignment.Shared.Models
+﻿namespace Students.Assignment.Shared.People
 {
     public class Lecturer : Person
     {

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Students.Assignment.Shared.Courses;
-using Students.Assignment.Shared.Models;
+using Students.Assignment.Shared.People;
 
-namespace Blazor.Learner.Server.Data
+namespace Students.Assignment.Server.Data
 {
     public class ApplicationDbContext : DbContext
     {
