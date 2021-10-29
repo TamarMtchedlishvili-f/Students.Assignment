@@ -1,5 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Components
+@using Students.Assignment.Shared.Courses
 @using Students.Assignment.Shared.People
+@using System.Net
 
 <EditForm Model="@Student" OnValidSubmit="@OnValidSubmit">
     <DataAnnotationsValidator/>
@@ -58,18 +60,15 @@
             </div>
         </div>
     </div>
-    @* <div class="form-group "> *@
-    @*     <div> *@
-    @*         <label>Course :</label> *@
-    @*         <div> *@
-    @*             <inputCourse value="@Student.Course"/> *@
-    @*             <ValidationMessage For="@(() => Student.Course)"/> *@
-    @*         </div> *@
-    @*     </div> *@
-    @* </div> *@
-    <div class="nav-tabs-body p-4">
-        @Student?.Course
-    </div>
+    <div class="col-md-4"> 
+        <select class="form-control"> 
+                    <option value="">-- Select Course --</option> 
+                    @foreach (var course in Course) 
+                    { 
+                        <option value="@course.Id">@course.CourseName</option> 
+                    } 
+                </select> 
+            </div> 
     <button type="submit" class="btn btn-success">
         @ButtonText
     </button>
@@ -81,11 +80,17 @@
 
     [Parameter]
     public Student Student { get; set; }
+    
+    [Parameter]
+    public IEnumerable<Course> Course { get; set; }
 
     [Parameter]
     public string ButtonText { get; set; } = "Save";
 
     [Parameter]
     public EventCallback OnValidSubmit { get; set; }
+    
+    
+    
 
 }

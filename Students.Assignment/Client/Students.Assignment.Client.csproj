@@ -18,7 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Person" />
+    <_ContentIncludedByDefault Remove="Pages\Student\Create.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Student\Edit.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Student\FetchData.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Student\FetchDataRadzen.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Student\Form.razor" />
   </ItemGroup>
 
 </Project>
