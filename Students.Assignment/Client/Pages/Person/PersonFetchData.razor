@@ -1,0 +1,29 @@
+﻿@page "/Person"
+@using Students.Assignment.Shared.People
+
+
+<h1>Person 🚻</h1>
+
+@* <p>Display tabular data with ease. Perform paging, sorting and filtering through Entity Framework without extra code.</p> *@
+
+<RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" PageSize="5" AllowPaging="true" AllowSorting="true"
+                Data="@_people" TItem="Person" ColumnWidth="150px" LogicalFilterOperator="LogicalFilterOperator.Or">
+    <Columns>
+        <RadzenDataGridColumn TItem="Person" Property="PersonID" Filterable="false" Title="ID" Frozen="true" Width="70px" TextAlign="TextAlign.Center"/>
+        @* <RadzenDataGridColumn TItem="Person" Title="Photo" Sortable="false" Filterable="false" Width="200px" > *@
+        @* <Template Context="data"> *@
+        @*     <RadzenImage Path="@data.Photo" style="width: 40px; height: 40px; border-radius: 8px;" /> *@
+        @* </Template> *@
+        @* </RadzenDataGridColumn> *@
+        <RadzenDataGridColumn TItem="Person" Property="IDNumber" Title="ID number"/>
+        <RadzenDataGridColumn TItem="Person" Property="FirstName" Title="First Name"/>
+        <RadzenDataGridColumn TItem="Person" Property="LastName" Title="Last Name" Width="150px"/>
+        <RadzenDataGridColumn TItem="Person" Property="DateOfBirth" Title="Date of birth"/>
+        <RadzenDataGridColumn TItem="Person" Property="Gender" Title="Gender"/>
+    </Columns>
+</RadzenDataGrid>
+
+@code {
+    IEnumerable<Person> _people;
+
+}

@@ -2,36 +2,27 @@
 @using Students.Assignment.Shared.People
 
 
+<h1>Lecturers 👩🏼‍🏫</h1>
 
-<h1>DataGrid</h1>
+@* <p>Display tabular data with ease. Perform paging, sorting and filtering through Entity Framework without extra code.</p> *@
 
-<p>Display tabular data with ease. Perform paging, sorting and filtering through Entity Framework without extra code.</p>
+<RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" PageSize="5" AllowPaging="true" AllowSorting="true"
+                Data="@_lecturers" TItem="Lecturer" ColumnWidth="150px" LogicalFilterOperator="LogicalFilterOperator.Or">
+    <Columns>
+        <RadzenDataGridColumn TItem="Lecturer" Property="LecturerID" Filterable="false" Title="ID" Frozen="true" Width="70px" TextAlign="TextAlign.Center"/>
+        @* <RadzenDataGridColumn TItem="Lecturer" Title="Photo" Sortable="false" Filterable="false" Width="200px" > *@
+        @* <Template Context="data"> *@
+        @*     <RadzenImage Path="@data.Photo" style="width: 40px; height: 40px; border-radius: 8px;" /> *@
+        @* </Template> *@
+        @* </RadzenDataGridColumn> *@
+        <RadzenDataGridColumn TItem="Lecturer" Property="IDNumber" Title="ID number"/>
+        <RadzenDataGridColumn TItem="Lecturer" Property="FirstName" Title="First Name"/>
+        <RadzenDataGridColumn TItem="Lecturer" Property="LastName" Title="Last Name" Width="150px"/>
+        <RadzenDataGridColumn TItem="Lecturer" Property="DateOfBirth" Title="Date of birth"/>
+        <RadzenDataGridColumn TItem="Lecturer" Property="Gender" Title="Gender"/>
+    </Columns>
+</RadzenDataGrid>
 
-    <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" PageSize="5" AllowPaging="true" AllowSorting="true" 
-        Data="@_lecturers" TItem="Lecturer" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
-        <Columns>
-            <RadzenDataGridColumn TItem="Lecturer" Property="LecturerID" Filterable="false" Title="ID" Frozen="true" Width="70px" TextAlign="TextAlign.Center" />
-            <RadzenDataGridColumn TItem="Lecturer" Title="Photo" Sortable="false" Filterable="false" Width="200px" >
-                @* <Template Context="data"> *@
-                @*     <RadzenImage Path="@data.Photo" style="width: 40px; height: 40px; border-radius: 8px;" /> *@
-                @* </Template> *@
-            </RadzenDataGridColumn>
-            <RadzenDataGridColumn TItem="Lecturer" Property="FirstName" Title="First Name" />
-            <RadzenDataGridColumn TItem="Lecturer" Property="LastName" Title="Last Name" Width="150px"/>
-            <RadzenDataGridColumn TItem="Lecturer" Property="Title" Title="Title" />
-            <RadzenDataGridColumn TItem="Lecturer" Property="TitleOfCourtesy" Title="Title Of Courtesy" />
-            <RadzenDataGridColumn TItem="Lecturer" Property="BirthDate" Title="Birth Date" FormatString="{0:d}" />
-            <RadzenDataGridColumn TItem="Lecturer" Property="HireDate" Title="Hire Date" FormatString="{0:d}" />
-            <RadzenDataGridColumn TItem="Lecturer" Property="Address" Title="Address" />
-            <RadzenDataGridColumn TItem="Lecturer" Property="City" Title="City" />
-            <RadzenDataGridColumn TItem="Lecturer" Property="Region" Title="Region" />
-            <RadzenDataGridColumn TItem="Lecturer" Property="PostalCode" Title="Postal Code" />
-            <RadzenDataGridColumn TItem="Lecturer" Property="Country" Title="Country" />
-            <RadzenDataGridColumn TItem="Lecturer" Property="HomePhone" Title="Home Phone" />
-            <RadzenDataGridColumn TItem="Lecturer" Property="Extension" Title="Extension" />
-            <RadzenDataGridColumn TItem="Lecturer" Property="Notes" Title="Notes" />
-        </Columns>
-    </RadzenDataGrid>
 @code {
     IEnumerable<Lecturer> _lecturers;
 

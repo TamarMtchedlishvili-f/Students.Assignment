@@ -1,0 +1,176 @@
+﻿@page "/Lecturer"
+@using Students.Assignment.Shared.People
+@using Students.Assignment.Ser
+@inject ApplicationDbContext dbContext
+
+
+
+<h1>DataGrid InLine Editing</h1>
+
+<p>This page demonstrates how to configure the Razden Blazor DataGrid for inline editing</p>
+
+    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Add" Click="@InsertRow" />
+    <RadzenDataGrid @ref="_lecturersGrid" AllowFiltering="true" AllowPaging="true" PageSize="3" AllowSorting="true" EditMode="DataGridEditMode.Single"
+                Data="@orders" TItem="Lecturer" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+        <Columns>
+            <RadzenDataGridColumn Width="100px" TItem="Lecturer" Property="LecturerID" Title="Lecturer ID" />
+            <RadzenDataGridColumn Width="200px" TItem="Lecturer" Property="Customer.CompanyName" Title="Customer">
+                <EditTemplate Context="order">
+                    <RadzenDropDown @bind-Value="order.CustomerID" Data="@customers" TextProperty="CompanyName" ValueProperty="CustomerID" Style="width:100%" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="Lecturer" Property="Employee.LastName" Title="Employee" Width="300px">
+                <Template Context="order">
+                    <RadzenImage Path="@order.Employee?.Photo" style="width: 40px; height: 40px; border-radius: 8px;" />
+                    @order.Employee?.FirstName @order.Employee?.LastName
+                </Template>
+                <EditTemplate Context="order">
+                    <RadzenDropDown @bind-Value="order.EmployeeID" Data="@_lecturers" ValueProperty="EmployeeID" Style="width:100%">
+                        <Template>
+                            <RadzenImage Path="@context.Photo" style="width: 40px; height: 40px; border-radius: 8px;" />
+                            @context.FirstName @context.LastName
+                        </Template>
+                    </RadzenDropDown>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="Lecturer" Property="LecturerDate" Title="Lecturer Date">
+                <Template Context="order">
+                    @String.Format("{0:d}", order.LecturerDate)
+                </Template>
+                <EditTemplate Context="order">
+                    <RadzenDatePicker @bind-Value="order.LecturerDate" Style="width:100%" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="Lecturer" Property="Freight" Title="Freight">
+                <Template Context="order">
+                    @String.Format(new System.Globalization.CultureInfo("en-US"), "{0:C}", order.Freight)
+                </Template>
+                <EditTemplate Context="order">
+                    <RadzenNumeric @bind-Value="order.Freight" Style="width:100%" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="Lecturer" Property="ShipName" Title="Ship Name">
+                <EditTemplate Context="order">
+                    <RadzenTextBox @bind-Value="order.ShipName" Style="width:100%; display: block" Name="ShipName" />
+                    <RadzenRequiredValidator Text="ShipName is required" Component="ShipName" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="Lecturer" Context="sampleBlazorModelsSampleLecturer" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
+                <Template Context="order">
+                    <RadzenButton Icon="edit" Size="ButtonSize.Small" Click="@(args => EditRow(order))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="order">
+                    <RadzenButton Icon="save" Size="ButtonSize.Small" Click="@((args) => SaveRow(order))">
+                    </RadzenButton>
+                    <RadzenButton Icon="cancel" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Secondary" Click="@((args) => CancelEdit(order))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="Lecturer" Context="order" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="70px">
+                <Template Context="order">
+                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@(args => DeleteRow(order))"  @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="order">
+                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@(args => DeleteRow(order))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+        </Columns>
+    </RadzenDataGrid>
+
+@code {
+    RadzenDataGrid<Lecturer> _lecturersGrid;
+    // IList<Lecturer> orders;
+    // IEnumerable<Customer> customers;
+    IEnumerable<Lecturer> _lecturers;
+    readonly ApplicationDbContext _context;
+
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        // customers = dbContext.Customers.ToList();
+        // _lecturers = dbContext.Employees.ToList();
+
+        // For demo purposes only
+        // orders = dbContext.Lecturers.Include("Customer").Include("Employee").ToList();
+
+        // For production
+        //orders = dbContext.Lecturers.Include("Customer").Include("Employee");
+    }
+
+    void EditRow(Lecturer lecturer)
+    {
+        _lecturersGrid.EditRow(lecturer);
+    }
+
+    void OnUpdateRow(Lecturer order)
+    {
+        dbContext.Update(order);
+
+        // For demo purposes only
+        order.Customer = dbContext.Customers.Find(order.CustomerID);
+        order.Employee = dbContext.Employees.Find(order.EmployeeID);
+
+        // For production
+        //dbContext.SaveChanges();
+    }
+
+    void SaveRow(Lecturer order)
+    {
+        _lecturersGrid.UpdateRow(order);
+    }
+
+    void CancelEdit(Lecturer order)
+    {
+        _lecturersGrid.CancelEditRow(order);
+
+        // For production
+        var orderEntry = dbContext.Entry(order);
+        if (orderEntry.State == EntityState.Modified)
+        {
+            orderEntry.CurrentValues.SetValues(orderEntry.OriginalValues);
+            orderEntry.State = EntityState.Unchanged;
+        }
+    }
+
+    void DeleteRow(Lecturer order)
+    {
+        if (orders.Contains(order))
+        {
+            dbContext.Remove<Lecturer>(order);
+
+            // For demo purposes only
+            orders.Remove(order);
+
+            // For production
+            //dbContext.SaveChanges();
+
+            _lecturersGrid.Reload();
+        }
+        else
+        {
+            _lecturersGrid.CancelEditRow(order);
+        }
+    }
+
+    void InsertRow()
+    {
+        _lecturersGrid.InsertRow(new Lecturer());
+    }
+
+    void OnCreateRow(Lecturer order)
+    {
+        dbContext.Add(order);
+
+        // For demo purposes only
+        order.Customer = dbContext.Customers.Find(order.CustomerID);
+        order.Employee = dbContext.Employees.Find(order.EmployeeID);
+
+        // For production
+        //dbContext.SaveChanges();
+    }
+}
